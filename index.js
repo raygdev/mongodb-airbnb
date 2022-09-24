@@ -73,6 +73,8 @@ async function main() {
     // await upsertListingByName(client, 'Brick Mansion', mansion)
 
     // await updateAllListingsToHavePropertyType(client)
+
+    // await deleteAListingByName(client, cozy.name)
   } catch (e) {
     console.error(e);
   } finally {
@@ -188,6 +190,13 @@ async function updateAllListingsToHavePropertyType(client) {
     );
   console.log(`${result.matchedCount} document(s) matched the query criteria`);
   console.log(`${result.modifiedCount} was/were updated.`);
+}
+
+async function deleteAListingByName(client, nameOfListing){
+    const result = await client.db('sample_airbnb')
+     .collection('listingsAndReviews')
+     .deleteOne({name: nameOfListing})
+     console.log(`${result.deletedCount} document(s) was/were deleted`)
 }
 
 main().catch(console.error);
