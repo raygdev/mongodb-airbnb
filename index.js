@@ -71,6 +71,8 @@ async function main() {
     // await updateListingByName(client, 'Infinite Views', listingFilter)
 
     // await upsertListingByName(client, 'Brick Mansion', mansion)
+
+    // await updateAllListingsToHavePropertyType(client)
   } catch (e) {
     console.error(e);
   } finally {
@@ -170,6 +172,22 @@ async function upsertListingByName(client, nameOfListing, updatedListing) {
   } else {
     console.log(`${result.modifiedCount} document(s) was/were updated`);
   }
+}
+
+async function updateAllListingsToHavePropertyType(client) {
+  const result = await client
+    .db("sample_airbnb")
+    .collection("listingsAndReviews")
+    .updateMany(
+      {
+        property_type: { $exists: false },
+      },
+      {
+        $set: { property_type: "Unknown" },
+      }
+    );
+  console.log(`${result.matchedCount} document(s) matched the query criteria`);
+  console.log(`${result.modifiedCount} was/were updated.`);
 }
 
 main().catch(console.error);
