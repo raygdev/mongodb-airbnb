@@ -1,0 +1,26 @@
+{
+  "name": "mongodb-airbnb",
+  "version": "1.0.0",
+  "description": "practice for mongodb and node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raygdev/mongodb-airbnb.git"
+  },
+  "keywords": [
+    "mongodb",
+    "node"
+  ],
+  "author": "raygdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raygdev/mongodb-airbnb/issues"
+  },
+  "homepage": "https://github.com/raygdev/mongodb-airbnb#readme",
+  "dependencies": {
+    "mongodb": "^4.10.0"
+  }
+}
