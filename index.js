@@ -38,6 +38,18 @@ let listingFilter ={
     bathrooms: 9
 }
 
+let cozy = {
+    name: 'Cozy Cottage',
+    bedrooms: 2,
+    bathrooms: 1
+}
+
+let mansion = {
+    name: 'Brick Mansion',
+    bedrooms: 8,
+    bathrooms: 6
+}
+
 async function main() {
   const uri = process.env.MONGOURI;
 
@@ -54,9 +66,11 @@ async function main() {
 
     // await findOneListingByName(client, 'Infinite Views')
 
-    await findMinBedAndBath(client,4,2)
+    // await findMinBedAndBath(client,4,2)
 
     // await updateListingByName(client, 'Infinite Views', listingFilter)
+
+    // await upsertListingByName(client, 'Brick Mansion', mansion)
   } catch (e) {
     console.error(e);
   } finally {
@@ -125,6 +139,26 @@ async function updateListingByName(client, listingName, updatedListing){
                                 .updateOne({name: listingName}, {$set: updatedListing})
     console.log(`${result.matchedCount} document(s) mathched the query criteria`)
     console.log(`${result.modifiedCount} document(s) was/were updated`)
+}
+
+async function upsertListingByName(client, nameOfListing, updatedListing){
+    const result = await client.db('sample_airbnb')
+                               .collection('listingsAndReviews')
+                               .updateOne({
+                                name : nameOfListing
+                               },
+                               {
+                                $set: updatedListing
+                               },
+                               {
+                                upsert: true
+                               })
+    console.log(`${result.matchedCount} document(s) matched the query criteria.`)
+    if(result.upsertedCount > 0) {
+        console.log(`One document was inserted with id ${result.upsertedId}`)
+    } else {
+        console.log(`${result.modifiedCount} document(s) was/were updated`)
+    }
 }
 
 main().catch(console.error);
