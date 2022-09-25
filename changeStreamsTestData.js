@@ -120,6 +120,6 @@ async function deleteListing(client, listingId) {
     .db("sample_airbnb")
     .collection("listingsAndReviews")
     .deleteOne({ _id: listingId });
-  console.log(`${results.deletedCount} document(s) was/were deleted`);
+  console.log(`${result.deletedCount} document(s) was/were deleted`);
 }
 main().catch(console.error);
