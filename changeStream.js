@@ -7,12 +7,13 @@ async function main() {
 
     try {
         await client.connect()
+        await monitorListingsUsingEventEmitter(client)
     }
     catch (e) {
         console.error(e)
     }
     finally {
-        client.close
+        client.close()
     }
 }
 
@@ -23,6 +24,17 @@ function closeChangeStream(timeInMs = 60000, changeStream) {
             changeStream.close()
         }, timeInMs)
     })
+}
+
+async function monitorListingsUsingEventEmitter(client, timeInMs = 60000, pipeline = []) {
+    const collection = client.db('sample_airbnb').collection('listingsAndReviews')
+
+    const changeStream = collection.watch(pipeline)
+
+    changeStream.on('change', (next) => {
+        console.log(next)
+    })
+    await closeChangeStream(timeInMs, changeStream)
 }
 
 main().catch(console.error)
