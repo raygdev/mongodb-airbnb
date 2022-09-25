@@ -152,40 +152,6 @@ async function deleteAListingByName(client, nameOfListing){
      console.log(`${result.deletedCount} document(s) was/were deleted`)
 }
 
-async function printCheapestSuburbs(client, country, market, maxNumberToPrint){
-    const pipeLine = [
-        {
-          '$match': {
-            'bedrooms': 1, 
-            'address.country': country, 
-            'address.market': market, 
-            'address.suburb': {
-              '$exists': 1, 
-              '$ne': ''
-            }, 
-            'room_type': 'Entire home/apt'
-          }
-        }, {
-          '$group': {
-            '_id': '$address.suburb', 
-            'averagePrice': {
-              '$avg': '$price'
-            }
-          }
-        }, {
-          '$sort': {
-            'averagePrice': 1
-          }
-        }, {
-          '$limit': maxNumberToPrint
-        }
-      ]
-      const aggCursor = await client.db('sample_airbnb')
-                                .collection('listingsAndReviews')
-                                .aggregate(pipeLine)
-    await aggCursor.forEach(airBnbListing => {
-         console.log(`${airBnbListing._id}: $${airBnbListing.averagePrice}`)
-      })
-}
+
 
 main().catch(console.error);
