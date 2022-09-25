@@ -86,4 +86,16 @@ async function updateListing(client, listingId, updatedListing) {
   console.log(`${result.matchedCount} document(s) matched the query criteria`);
   console.log(`${result.modifiedCount} document(s) was/were updated`);
 }
+
+/**
+ * 
+ * @param {MongoClient} client a MongoClient that is connected to a cluster
+ * @param {String} listingId the id of the listing to be deleted
+ */
+async function deleteListing(client, listingId) {
+    const result = await client.db('sample_airbnb')
+            .collection('listingsAndReviews')
+            .deleteOne({_id: listingId})
+    console.log(`${results.deletedCount} document(s) was/were deleted`)
+}
 main().catch(console.error);
