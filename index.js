@@ -27,7 +27,6 @@ async function main() {
 
     // await deleteAListingByName(client, cozy.name)
 
-    await printCheapestSuburbs(client, 'Australia', 'Sydney', 10)
   } catch (e) {
     console.error(e);
   } finally {
