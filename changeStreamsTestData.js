@@ -46,6 +46,29 @@ async function main() {
         country: "Australia",
       },
     });
+
+    const italianVilla = await createListing(client, {
+      name: "Italian Villa",
+      property_type: "Entire home/apt",
+      bedrooms: 6,
+      bathrooms: 4,
+      address: {
+        market: "Cinque Terre",
+        country: "Italy",
+      },
+    });
+
+    const sydneyHarbourHome = await createListing(client, {
+      name: "Sydney Harbour Home",
+      bedrooms: 4,
+      bathrooms: 2.5,
+      address: {
+        market: "Sydney",
+        country: "Australia",
+      },
+    });
+
+    await deleteListing(client, sydneyHarbourHome);
   } catch (e) {
     console.error(e);
   } finally {
@@ -88,14 +111,15 @@ async function updateListing(client, listingId, updatedListing) {
 }
 
 /**
- * 
+ *Delete an Airbnb listing
  * @param {MongoClient} client a MongoClient that is connected to a cluster
  * @param {String} listingId the id of the listing to be deleted
  */
 async function deleteListing(client, listingId) {
-    const result = await client.db('sample_airbnb')
-            .collection('listingsAndReviews')
-            .deleteOne({_id: listingId})
-    console.log(`${results.deletedCount} document(s) was/were deleted`)
+  const result = await client
+    .db("sample_airbnb")
+    .collection("listingsAndReviews")
+    .deleteOne({ _id: listingId });
+  console.log(`${results.deletedCount} document(s) was/were deleted`);
 }
 main().catch(console.error);
